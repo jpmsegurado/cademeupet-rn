@@ -14,11 +14,11 @@ class TabScreen extends Component {
           </Body>
         </Header>
         <Content>
-          <Tabs locked>
-            <Tab heading={'tab1'}>
+          <Tabs tabBarPosition='bottom'>
+            <Tab heading={'Achados'}>
               <FoundPetsScreen />
             </Tab>
-            <Tab heading={'tab1'}>
+            <Tab heading={'Perdidos'}>
               <LostPetsScreen />
             </Tab>
           </Tabs>

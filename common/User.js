@@ -12,6 +12,10 @@ const storage = new Storage({
 });
 
 export default class User extends Component {
+  
+  state = {
+    user: {}
+  };
 
   constructor() {
     super();
@@ -42,13 +46,19 @@ export default class User extends Component {
     });
   }
 
+  getUser() {
+    return storage.load({ key: 'user', id: 'user' });
+  }
+
   render() {
     const signIn = this.signIn;
     const saveUser = this.saveUser;
+    const getUser = this.getUser;
+    const user = this.state.user;
 
     return (
       <Fragment>
-        {this.props.render({ signIn, saveUser })}
+        {this.props.render({ signIn, saveUser, getUser, user })}
       </Fragment>
     )
   }

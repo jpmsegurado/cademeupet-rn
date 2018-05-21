@@ -26,6 +26,7 @@ const AppNavigatorLogged = createStackNavigator({
 class MainScreen extends Component {
 
   getNavigation() {
+    
     if (this.props.user.email) {
       return (<AppNavigatorLogged />);
     } else {
