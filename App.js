@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import LoginScreen from './screens/LoginScreen';
 import { createStackNavigator } from 'react-navigation';
 import { Root, Container } from 'native-base';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './reducers';
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -12,6 +15,8 @@ const AppNavigator = createStackNavigator({
     }
   },
 });
+
+const store = createStore(rootReducer);
 
 export default class App extends React.Component {
 
@@ -30,12 +35,14 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <Root >
-        {!this.state.loading && <Container style={{ paddingTop: StatusBar.currentHeight}}>
-          <StatusBar backgroundColor='#164339' />
-          <AppNavigator />
-        </Container>}
-      </Root>
+      <Provider store={store}>
+        <Root >
+          {!this.state.loading && <Container style={{ paddingTop: StatusBar.currentHeight}}>
+            <StatusBar backgroundColor='#164339' />
+            <AppNavigator />
+          </Container>}
+        </Root>
+      </Provider>
     )
   }
 }
