@@ -6,10 +6,17 @@ import { Root, Container } from 'native-base';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers';
+import TabScreen from './screens/TabScreen';
 
 const AppNavigator = createStackNavigator({
   Home: {
     screen: LoginScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Tab: {
+    screen: TabScreen,
     navigationOptions: {
       header: null
     }

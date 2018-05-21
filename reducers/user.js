@@ -1,4 +1,4 @@
-const ACTIONS = {
+export const ACTIONS = {
   LOGOUT: 'LOGOUT',
   LOGIN: 'LOGIN'
 };
@@ -10,10 +10,11 @@ const user = (state = defaultState, action) => {
     case 'LOGOUT':
       return {}
     case 'LOGIN':
-      return {...state}
+      return {...action.user}
     default:
       return state
   }
 }
+
 
 export default user;

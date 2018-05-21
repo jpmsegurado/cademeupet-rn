@@ -17,14 +17,16 @@ import Expo from 'expo';
 import User from '../common/User';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
+import { logInUser } from '../actions/user';
+import TabScreen from './TabScreen';
 
 class LoginScreen extends React.Component {
 
   state = {
     loading: false,
     form: {
-      email: '',
-      password: '',
+      email: 'jpmsegurado@gmail.com',
+      password: '123123',
     }
   }
 
@@ -55,20 +57,18 @@ class LoginScreen extends React.Component {
   }
 
   onSubmit(signIn, { email, password }) {
-    console.log(signIn)
     this.setState({ loading: true })
-    console.log(this.state);
     signIn(email, password).then((resp) => {
       this.setState({ loading: false })
-      console.log(resp);
+      const user = resp.user.providerData[0];
+      this.props.setUser(user);
+      this.props.navigation.navigate('Tab');
     }).catch((resp) => {
       this.setState({ loading: false })
-      console.log(resp);
     });
   }
 
   render() {
-    console.log('props', this.props)
     return (
       <User render={({ signIn }) => (<Container>
         <Content style={styles.content}>
@@ -79,6 +79,7 @@ class LoginScreen extends React.Component {
                 <Item floatingLabel>
                   <Label style={styles.label}>E-mail</Label>
                   <Input
+                    defaultValue={this.state.email}
                     onChangeText={(text) => this.onChange('email', text)}
                     style={styles.input}
                     keyboardType='email-address'
@@ -88,9 +89,11 @@ class LoginScreen extends React.Component {
                 <Item floatingLabel>
                   <Label style={styles.label}>Senha</Label>
                   <Input
+                    defaultValue={this.state.password}
                     onChangeText={(text) => this.onChange('password', text)}
                     style={styles.input}
                     secureTextEntry={true}
+                    login
                     returnKeyType='send' />
                 </Item>
                 <Button
@@ -141,4 +144,10 @@ const styles = {
   }
 }
 
-export default connect()(LoginScreen);
+const mapDispatchToProps = dispatch => ({
+  setUser: (user) => {
+    dispatch(logInUser(user))
+  }
+})
+
+export default connect(state => state, mapDispatchToProps)(LoginScreen);
