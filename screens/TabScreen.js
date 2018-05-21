@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Content, Header, Body, Title, Container, Text } from 'native-base';
+import FoundPetsScreen from './FoundPetsScreen';
+import LostPetsScreen from './LostPetsScreen';
+import { View, Content, Header, Body, Title, Container, Text, Tabs, Tab } from 'native-base';
 
 class TabScreen extends Component {
   render() {
-    console.log(this.props.user);
     return (
       <Container>
         <Header>
@@ -12,17 +13,18 @@ class TabScreen extends Component {
             <Title>Início</Title>
           </Body>
         </Header>
-        <Content style={styles.content}>
-          <Text>{this.props.user.email}</Text>
+        <Content>
+          <Tabs locked>
+            <Tab heading={'tab1'}>
+              <FoundPetsScreen />
+            </Tab>
+            <Tab heading={'tab1'}>
+              <LostPetsScreen />
+            </Tab>
+          </Tabs>
         </Content>
       </Container>
     );
-  }
-}
-
-const styles = {
-  content: {
-    padding: 20,
   }
 }
 

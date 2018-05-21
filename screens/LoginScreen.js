@@ -25,8 +25,8 @@ class LoginScreen extends React.Component {
   state = {
     loading: false,
     form: {
-      email: 'jpmsegurado@gmail.com',
-      password: '123123',
+      email: '',
+      password: '',
     }
   }
 
@@ -39,7 +39,8 @@ class LoginScreen extends React.Component {
     },
   }
 
-  logoURI = Expo.Asset.fromModule(require('../images/logo.png'))
+  logoURI = Expo.Asset.fromModule(require('../images/logo.png'));
+  
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
@@ -56,61 +57,63 @@ class LoginScreen extends React.Component {
     });
   }
 
-  onSubmit(signIn, { email, password }) {
+  onSubmit(signIn, saveUser, { email, password }) {
     this.setState({ loading: true })
     signIn(email, password).then((resp) => {
       this.setState({ loading: false })
       const user = resp.user.providerData[0];
       this.props.setUser(user);
+      saveUser(user);
       this.props.navigation.navigate('Tab');
     }).catch((resp) => {
-      this.setState({ loading: false })
+      this.setState({ loading: false });
     });
   }
 
   render() {
     return (
-      <User render={({ signIn }) => (<Container>
-        <Content style={styles.content}>
-          <KeyboardAwareScrollView>
-            <View>
-              <Form style={styles.form} >
-                <Image source={this.logoURI} style={{ width: 200, height: 200 }} />
-                <Item floatingLabel>
-                  <Label style={styles.label}>E-mail</Label>
-                  <Input
-                    defaultValue={this.state.email}
-                    onChangeText={(text) => this.onChange('email', text)}
-                    style={styles.input}
-                    keyboardType='email-address'
-                    autoCapitalize='none'
-                    returnKeyType='next' />
-                </Item>
-                <Item floatingLabel>
-                  <Label style={styles.label}>Senha</Label>
-                  <Input
-                    defaultValue={this.state.password}
-                    onChangeText={(text) => this.onChange('password', text)}
-                    style={styles.input}
-                    secureTextEntry={true}
-                    login
-                    returnKeyType='send' />
-                </Item>
-                <Button
-                  disabled={this.state.loading}
-                  onPress={() => this.onSubmit(signIn, this.state.form)}
-                  full
-                  style={!this.state.loading ? styles.button : styles.buttonDisabled}
-                  androidRippleColor='#1e5d4e'>
-                  <Text style={{ color: '#1e5d4e' }}>
-                    {this.state.loading ? 'Carregando' : 'Entrar'}
-                  </Text>
-                </Button>
-              </Form>
-            </View>
-          </KeyboardAwareScrollView>
-        </Content>
-      </Container>)
+      <User render={({ signIn, saveUser }) => 
+        (<Container>
+          <Content style={styles.content}>
+            <KeyboardAwareScrollView>
+              <View>
+                <Form style={styles.form} >
+                  <Image source={this.logoURI} style={{ width: 200, height: 200 }} />
+                  <Item floatingLabel>
+                    <Label style={styles.label}>E-mail</Label>
+                    <Input
+                      defaultValue={this.state.email}
+                      onChangeText={(text) => this.onChange('email', text)}
+                      style={styles.input}
+                      keyboardType='email-address'
+                      autoCapitalize='none'
+                      returnKeyType='next' />
+                  </Item>
+                  <Item floatingLabel>
+                    <Label style={styles.label}>Senha</Label>
+                    <Input
+                      defaultValue={this.state.password}
+                      onChangeText={(text) => this.onChange('password', text)}
+                      style={styles.input}
+                      secureTextEntry={true}
+                      login
+                      returnKeyType='send' />
+                  </Item>
+                  <Button
+                    disabled={this.state.loading}
+                    onPress={() => this.onSubmit(signIn, saveUser, this.state.form)}
+                    full
+                    style={!this.state.loading ? styles.button : styles.buttonDisabled}
+                    androidRippleColor='#1e5d4e'>
+                    <Text style={{ color: '#1e5d4e' }}>
+                      {this.state.loading ? 'Carregando' : 'Entrar'}
+                    </Text>
+                  </Button>
+                </Form>
+              </View>
+            </KeyboardAwareScrollView>
+          </Content>
+        </Container>)
       } />
     );
   }
