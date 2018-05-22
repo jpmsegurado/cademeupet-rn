@@ -57,13 +57,12 @@ class LoginScreen extends React.Component {
     });
   }
 
-  onSubmit(signIn, saveUser, { email, password }) {
+  onSubmit(signIn, { email, password }) {
     this.setState({ loading: true })
     signIn(email, password).then((resp) => {
       this.setState({ loading: false })
       const user = resp.user.providerData[0];
       this.props.setUser(user);
-      saveUser(user);
       this.props.navigation.navigate('Tab');
     }).catch((resp) => {
       this.setState({ loading: false });
@@ -72,7 +71,7 @@ class LoginScreen extends React.Component {
 
   render() {
     return (
-      <User render={({ signIn, saveUser }) => 
+      <User render={({ signIn }) => 
         (<Container>
           <Content style={styles.content}>
             <KeyboardAwareScrollView>
@@ -101,7 +100,7 @@ class LoginScreen extends React.Component {
                   </Item>
                   <Button
                     disabled={this.state.loading}
-                    onPress={() => this.onSubmit(signIn, saveUser, this.state.form)}
+                    onPress={() => this.onSubmit(signIn, this.state.form)}
                     full
                     style={!this.state.loading ? styles.button : styles.buttonDisabled}
                     androidRippleColor='#1e5d4e'>

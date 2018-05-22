@@ -4,6 +4,9 @@ import { Container } from 'native-base';
 import { createStackNavigator } from 'react-navigation';
 import LoginScreen from './LoginScreen';
 import TabScreen from './TabScreen';
+import User from '../common/User';
+import { logInUser } from '../actions/user';
+import { auth } from '../static/firebase';
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -24,6 +27,14 @@ const AppNavigatorLogged = createStackNavigator({
 });
 
 class MainScreen extends Component {
+
+  state = {
+    loading: true
+  }
+
+  componentDidMount() {
+    auth.onAuthStateChanged(({ email, displayName }) => this.props.setUser({email ,displayName}));
+  }
 
   getNavigation() {
     
@@ -49,4 +60,8 @@ const styles = {
   }
 }
 
-export default connect(state => state)(MainScreen);
+const mapDispatchToProps = dispatch => ({
+  setUser: (user) => dispatch(logInUser(user))
+})
+
+export default connect(state => state, mapDispatchToProps)(MainScreen);

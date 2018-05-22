@@ -7,8 +7,6 @@ import { createStore } from 'redux';
 import rootReducer from './reducers';
 import TabScreen from './screens/TabScreen';
 import MainScreen from './screens/MainScreen';
-import User from './common/User';
-
 
 const store = createStore(rootReducer);
 
