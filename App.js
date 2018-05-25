@@ -8,6 +8,9 @@ import rootReducer from './reducers';
 import TabScreen from './screens/TabScreen';
 import MainScreen from './screens/MainScreen';
 
+
+console.disableYellowBox = true;
+
 const store = createStore(rootReducer);
 
 export default class App extends React.Component {
@@ -28,7 +31,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <Root >
-          {!this.state.loading && <Container style={{ paddingTop: StatusBar.currentHeight}}>
+          {!this.state.loading && <Container>
             <StatusBar backgroundColor='#164339' />
             <MainScreen />
           </Container>}

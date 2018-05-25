@@ -7,6 +7,7 @@ import TabScreen from './TabScreen';
 import User from '../common/User';
 import { logInUser } from '../actions/user';
 import { auth } from '../static/firebase';
+import AddFountPetScreen from './AddFountPetScreen';
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -20,6 +21,12 @@ const AppNavigator = createStackNavigator({
 const AppNavigatorLogged = createStackNavigator({
   Home: {
     screen: TabScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  AddFoundPet: {
+    screen: AddFountPetScreen,
     navigationOptions: {
       header: null
     }
