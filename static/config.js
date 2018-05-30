@@ -1,4 +1,5 @@
 const config = {
+  filesquash: 'https://filesquash.io//v1/assets',
   tipos: [
     { 
       nome: 'Cachorro', 

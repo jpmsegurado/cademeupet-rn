@@ -38,6 +38,7 @@ export default class AddFountPetScreen extends Component {
     this.onChangeRaca = this.onChangeRaca.bind(this);
     this.onChange = this.onChange.bind(this);
     this.focusNext = this.focusNext.bind(this);
+    this.submitPhoto = this.submitPhoto.bind(this);
   }
 
   onChangeTipo (tipo) {
@@ -78,13 +79,28 @@ export default class AddFountPetScreen extends Component {
     ImagePicker.launchImageLibraryAsync({
       allowsEditing: false,
     }).then((image) => {
-      console.log(image)
       this.setState({ image: image.uri });
     }).catch(err => console.log(err));
   }
 
   focusNext() {
-    
+    this.refs.descInput.focus() 
+  }
+
+  submitPhoto(image) {
+    const url = config.filesquash;
+    let formData = new FormData();
+    formData.append('photo', { uri: image });
+    fetch(url, {
+      method: 'POST',
+      body: formData,
+      header: {
+        'content-type': 'multipart/form-data',
+      },
+    }).then((result) => {
+      this.props.navigation.pop();
+      console.log(result);
+    }).catch(err => console.log(err));
   }
 
   render() {
@@ -170,6 +186,9 @@ export default class AddFountPetScreen extends Component {
                   onChangeText={(text) => this.onChange('descricao', text)}
                   />
               </Item>
+              <Button full onPress={this.submitPhoto(this.state.image)}>
+                <Text>Enviar</Text>
+              </Button>
             </Form>
           </Content>
         </KeyboardAwareScrollView>

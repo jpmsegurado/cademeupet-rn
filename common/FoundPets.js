@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { db } from '../static/firebase';
+import { Content } from 'native-base';
 
 export class FoundPets extends Component {
 
@@ -10,19 +11,25 @@ export class FoundPets extends Component {
 
   getAllFoundPets () {
     this.setState({ loadingPets: true });
-    return db.collection('found').get().then((pets) => {
+    return db.collection('found').get().then((resp) => {
+      const pets = resp.docs;
+      console.log(pets);
       this.setState({ loadingPets: false, pets });
     }, () => {
       this.setState({ loadingPets: false, pets: [] });
     });
   }
 
+  componentDidMount () {
+    this.getAllFoundPets();
+  }
+
   render() {
     const { pets, loadingPets } = this.state;
     return (
-      <Fragment>
+      <Content>
         {this.props.render({ pets, loadingPets })}
-      </Fragment>
+      </Content>
     );
   }
 }
